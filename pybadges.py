@@ -11,15 +11,16 @@ import optparse
 
 __version__ = '0.1'
 
-BADGE_HEIGHT = 66
-BADGE_WIDTH  = 96
+BADGE_HEIGHT = 148.5
+BADGE_WIDTH  = 105
 
 PAGE_HEIGHT = 297
 PAGE_WIDTH = 210
 
-INNER_MARGIN = 3
+INNER_MARGIN = 0
 
-TEXT_COLOR = (1, 1, 1)
+TEXT_COLOR = (0.2, 0.2, 0.2)
+TEXT_COLOR_ROLE = (1, 1, 1)
 
 def convert_mm_to_dots(mm):
     return float(mm) / 25.4 * 72
@@ -28,7 +29,7 @@ def draw_text(ctx, pc, text, base_font_sz, y, text_width, text_height,
               area_width, multiline=False):
     font_sz = base_font_sz
     while font_sz > 6:
-        name_fd = pango.FontDescription("Ubuntu")
+        name_fd = pango.FontDescription("Product Sans")
         name_fd.set_size(font_sz * pango.SCALE)
         layout = pc.create_layout()
         layout.set_font_description(name_fd)
@@ -77,19 +78,27 @@ def draw_badge(ctx, width, height, description, background_image):
     name = description[0].strip()
 
     if len(description) > 1:
-        company = description[1].strip()
+        last_name = description[1].strip()
+    else:
+        last_name = ''
+   
+
+    if len(description) > 2:
+        company = description[2].strip()
     else:
         company = ''
 
-    if len(description) > 2:
-        role = description[2].strip()
+    if len(description) > 3:
+        role = description[3].strip()
     else:
         role = ''
 
-    if name and company and role:
-        name_y = 5
-        company_y = 60
-        role_y = 80
+    if name and last_name and company and role:
+        name_y = 150
+        last_name_y = 190
+        company_y = 320
+        role_y = 368
+
     elif name and company and not role:
         name_y = 10
         company_y = 70
@@ -103,11 +112,14 @@ def draw_badge(ctx, width, height, description, background_image):
     pc = pangocairo.CairoContext(ctx)
 
     if name:
-        draw_text(ctx, pc, name,    18, name_y, width * 0.9, height / 3, width, True)
+        draw_text(ctx, pc, name,    40, name_y, width * 0.9, height / 3, width, True)
+    if last_name:
+        draw_text(ctx, pc, last_name,    14, last_name_y, width * 0.9, height / 3, width, True)
     if company:
-        draw_text(ctx, pc, company, 16, company_y, width * 0.9, height / 7, width)
+        draw_text(ctx, pc, company, 14, company_y, width * 0.9, height / 7, width)
     if role:
-        draw_text(ctx, pc, role,    14, role_y, width * 0.9, height / 7, width)
+        ctx.set_source_rgb(TEXT_COLOR_ROLE[0], TEXT_COLOR_ROLE[1], TEXT_COLOR_ROLE[2])
+        draw_text(ctx, pc, role,    24, role_y, width * 0.9, height / 7, width)
 
 def generate_document(input_csv, output_pdf, background_image):
     surface = cairo.PDFSurface(output_pdf,
