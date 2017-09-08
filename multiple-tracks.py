@@ -7,12 +7,12 @@ import sys
 
 def main():
     
-    tracks = ['cdl', 'openstack', 'francejs', 'akademyfr', 'akademyfr', 'lua', 'back']
+    tracks = ['staff', 'speaker', 'public']
 
     for track in tracks:
         input_csv = 'badges-%s.csv' % track
         output_pdf = 'badges-%s.pdf' % track
-        background = 'badge-%s.png' % track
+        background = 'badges-%s.png' % track
         generate_document(input_csv, output_pdf, background)
 
 if __name__ == '__main__':
