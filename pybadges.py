@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+# -*- coding: utf-8 -*-
 # Licensed under the WTFPL license, http://sam.zoy.org/wtfpl/.
 
 import cairo
@@ -76,9 +76,15 @@ def draw_badge(ctx, width, height, description, background_image):
         return
 
     name = description[0].strip()
+    if(name[0].islower()):     
+        name = name[0].upper() + name[1:].lower()
+    elif(name[1].isupper()):
+        name = name.title() # Warning : "Jean-françois".title() -> "Jean-FrançOis"
+
 
     if len(description) > 1:
         last_name = description[1].strip()
+        last_name = last_name.title()
     else:
         last_name = ''
    
@@ -93,20 +99,10 @@ def draw_badge(ctx, width, height, description, background_image):
     else:
         role = ''
 
-    if name and last_name and company and role:
-        name_y = 150
-        last_name_y = 190
-        company_y = 320
-        role_y = 368
-
-    elif name and company and not role:
-        name_y = 10
-        company_y = 70
-    elif name and not company and role:
-        name_y = 10
-        role_y = 70
-    elif name and not company and not role:
-        name_y = 30
+    name_y = 150
+    last_name_y = 190
+    company_y = 320
+    role_y = 368
 
     ctx.set_source_rgb(TEXT_COLOR[0], TEXT_COLOR[1], TEXT_COLOR[2])
     pc = pangocairo.CairoContext(ctx)
