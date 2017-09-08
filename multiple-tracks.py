@@ -7,7 +7,7 @@ import sys
 
 def main():
     
-    tracks = ['staff', 'speaker', 'public']
+    tracks = ['staff', 'speaker', 'public', 'sponsor']
 
     for track in tracks:
         input_csv = 'badges-%s.csv' % track
