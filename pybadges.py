@@ -108,9 +108,9 @@ def draw_badge(ctx, width, height, description, background_image):
     pc = pangocairo.CairoContext(ctx)
 
     if name:
-        draw_text(ctx, pc, name,    40, name_y, width * 0.9, height / 3, width, True)
+        draw_text(ctx, pc, name,    40, name_y, width * 0.9, height / 3, width, False)
     if last_name:
-        draw_text(ctx, pc, last_name,    14, last_name_y, width * 0.9, height / 3, width, True)
+        draw_text(ctx, pc, last_name,    14, last_name_y, width * 0.9, height / 3, width, False)
     if company:
         draw_text(ctx, pc, company, 14, company_y, width * 0.9, height / 7, width)
     if role:
