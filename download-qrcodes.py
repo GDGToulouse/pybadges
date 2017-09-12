@@ -16,13 +16,7 @@ def download_qr_codes(input_csv, output_directory):
 
     badges = list(csvFile)
     for index, badge in enumerate(badges):
-        # Reverse the badge order for printing issues.
-        if(index%2 == 0):
-           badge_back = badges[index + 1]
-        else:
-            badge_back = badges[index-1]
-
-        download_qr_code(badge_back, index, output_directory)
+        download_qr_code(badge, output_directory)
 
 
 def main():

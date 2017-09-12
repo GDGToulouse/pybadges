@@ -55,7 +55,7 @@ def draw_text(ctx, pc, text, base_font_sz, y, text_width, text_height,
         break
 
 
-def draw_badge(ctx, width, height, description, background_image, qrcodes_directory, id=0):
+def draw_badge(ctx, width, height, description, background_image, qrcodes_directory, id=''):
     im = cairo.ImageSurface.create_from_png(background_image)
 
     ctx.save()
@@ -70,13 +70,18 @@ def draw_badge(ctx, width, height, description, background_image, qrcodes_direct
     if len(description) == 0:
         return
 
-    if len(description) > 3:
-        role = description[3].strip()
+    name = description[0].strip()
+
+    if len(description) > 1:
+        last_name = description[1].strip()
     else:
-        role = ''
+        last_name = ''
     
     if len(description) > 6:
         id = description[6].strip()
+        id = name + "_" + last_name + "_" +id
+    else:
+        id = name + "_" + last_name
 
 
     # -- QRCODE --
@@ -142,7 +147,7 @@ def generate_document(input_csv, output_pdf, background_image, qrcodes_directory
         ctx.save()
         ctx.translate(convert_mm_to_dots(margin_left_right + col * (BADGE_WIDTH + INNER_MARGIN)),
                       convert_mm_to_dots(margin_top_bottom + row * (BADGE_HEIGHT + INNER_MARGIN)))
-        draw_badge(ctx, BADGE_WIDTH, BADGE_HEIGHT, badge_back, background_image, qrcodes_directory, index)
+        draw_badge(ctx, BADGE_WIDTH, BADGE_HEIGHT, badge_back, background_image, qrcodes_directory)
         ctx.restore()
 
         col += 1

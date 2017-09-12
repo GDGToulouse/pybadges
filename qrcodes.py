@@ -11,7 +11,7 @@ API_URL = "https://api.qrserver.com/v1/create-qr-code/"
 QR_PARAMS = "?color=000000&bgcolor=FFFFFF&qzone=1&margin=0&size=400x400&ecc=L&format=png"
 
 
-def download_qr_code(description, id=0, output_directory="./qrcodes"):
+def download_qr_code(description, output_directory="./qrcodes"):
     if len(description) == 0:
         return
 
@@ -50,6 +50,9 @@ def download_qr_code(description, id=0, output_directory="./qrcodes"):
 
     if len(description) > 6:
         id = description[6].strip()
+        id = name + "_" + last_name + "_" +id
+    else:
+        id = name + "_" + last_name
 
 
     vcard_data = generate_vcard_data(name, last_name, company, phone_number, email)
