@@ -76,9 +76,9 @@ def draw_badge(ctx, width, height, description, background_image):
         return
 
     name = description[0].strip()
-    if(name[0].islower()):     
+    if(name and name[0].islower()):     
         name = name[0].upper() + name[1:].lower()
-    elif(name[1].isupper()):
+    elif(name and name[1].isupper()):
         name = name.title() # Warning : "Jean-françois".title() -> "Jean-FrançOis"
 
 
@@ -141,7 +141,16 @@ def generate_document(input_csv, output_pdf, background_image):
     row = 0
     col = 0
 
-    for badge in csvFile:
+
+    badges = list(csvFile)
+    nb_badges = len(badges)
+    if(nb_badges % 4 != 0):
+        nb_missing_badges = 4 - nb_badges % 4
+        #print(nb_badges, nb_missing_badges)
+        for i in range(nb_missing_badges):
+            badges.append(["","","","","","",""])
+
+    for badge in badges:
         ctx.save()
         ctx.translate(convert_mm_to_dots(margin_left_right + col * (BADGE_WIDTH + INNER_MARGIN)),
                       convert_mm_to_dots(margin_top_bottom + row * (BADGE_HEIGHT + INNER_MARGIN)))

@@ -66,7 +66,6 @@ def draw_badge(ctx, width, height, description, background_image, qrcodes_direct
     ctx.set_source_surface(im)
     ctx.fill()
 
-
     if len(description) == 0:
         return
 
@@ -86,18 +85,20 @@ def draw_badge(ctx, width, height, description, background_image, qrcodes_direct
 
     # -- QRCODE --
     file_path = qrcodes_directory + "/qrcode_" + str(id) + ".png"
-
-    im = cairo.ImageSurface.create_from_png(file_path)
-    
-    width_offset = 910
-    height_offset = 1420
-    
-    ctx.rectangle(0,0, 1400,1800)
-    ctx.translate(width_offset, height_offset)
-    ctx.scale(0.7, 0.7)
-    ctx.set_source_surface(im)
-    ctx.fill()
-    # -- END QRCODE --
+    if(os.path.exists(file_path)):
+        im = cairo.ImageSurface.create_from_png(file_path)
+        
+        width_offset = 910
+        height_offset = 1420
+        
+        ctx.rectangle(0,0, 1400,1800)
+        ctx.translate(width_offset, height_offset)
+        ctx.scale(0.7, 0.7)
+        ctx.set_source_surface(im)
+        ctx.fill()
+        # -- END QRCODE --
+    else:
+        print("QR code does not exist: " + file_path)
 
 
     ctx.restore()
@@ -135,8 +136,14 @@ def generate_document(input_csv, output_pdf, background_image, qrcodes_directory
 
     badges = list(csvFile)
     nb_badges = len(badges)
+    if(nb_badges % 4 != 0):
+        nb_missing_badges = 4 - nb_badges % 4
+        # print(nb_badges, nb_missing_badges)
+        for i in range(nb_missing_badges):
+            badges.append(["","","","","","",""])
 
-    for index in range(nb_badges):
+
+    for index in range(len(badges)):
         # Reverse the badge order for printing issues.
         if(index%2 == 0):
            badge_back = badges[index + 1]
