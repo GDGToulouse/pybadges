@@ -34,7 +34,7 @@ Download QR codes:
 
 
 Get the back badge with the QR codes:
-		./pybadges_back -i input.csv -o output.pdf -b background.png
+		./pybadges_back -i input.csv -o output.pdf -b background.png -q ./qrcodes-directory
 
 
 
