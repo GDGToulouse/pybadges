@@ -26,14 +26,17 @@ Typical usage:
 
 
 Multi-tracks usage (define 'tracks' in ./multiple-tracks.py):
+
 		./multiple-tracks
 
 
 Download QR codes:
+
 		./download-qrcodes -i input.csv -o ./outputDirectory
 
 
 Get the back badge with the QR codes:
+
 		./pybadges_back -i input.csv -o output.pdf -b background.png -q ./qrcodes-directory
 
 
